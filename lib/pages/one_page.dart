@@ -18,6 +18,12 @@ class OnePage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Pagina 1'),
         centerTitle: true,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.exit_to_app, color: Colors.white),
+            onPressed: () => userService.removeUser()
+          )
+        ],
       ),
       body: userService.userExists
         ? UserInformation(user: userService.user)
@@ -55,9 +61,10 @@ class UserInformation extends StatelessWidget {
           const Text('Profesiones', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
           const Divider(),
 
-          const ListTile( title: Text('Profesion 1: ') ),
-          const ListTile( title: Text('Profesion 2: ') ),
-          const ListTile( title: Text('Profesion 3: ') ),
+          ...?user?.professions?.map(
+            (profession) => ListTile( title: Text(profession) )
+          ).toList()
+          
         ],
       ),
     );

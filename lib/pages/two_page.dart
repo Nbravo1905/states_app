@@ -10,9 +10,14 @@ class TwoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userService = Provider.of<UserService>(context);
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Pagina 2'),
+        title: userService.userExists
+          ? Text('${userService.user?.name}')
+          : const Text('Pagina 2'),
         centerTitle: true,
       ),
       body: Center(
@@ -27,9 +32,9 @@ class TwoPage extends StatelessWidget {
                 final newUser = User(
                   name: 'Nino Andres Bravo',
                   age: 23,
+                  professions: ['FullStack Developer', 'Game']
                 );
 
-                final userService = Provider.of<UserService>(context, listen: false);
                 userService.user = newUser;
 
               }
@@ -41,7 +46,7 @@ class TwoPage extends StatelessWidget {
               color: Colors.blue,
               child: const Text('Cambiar Edad', style: TextStyle(color: Colors.white)),
               onPressed: () {
-
+                userService.changeAge(40);
               }
             ),
 
@@ -51,7 +56,7 @@ class TwoPage extends StatelessWidget {
               color: Colors.blue,
               child: const Text('Añadir Profesión', style: TextStyle(color: Colors.white)),
               onPressed: () {
-
+                userService.addProfession();
               }
             ),
 
