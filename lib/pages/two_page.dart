@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:states_app/models/user.dart';
+import 'package:states_app/services/user_service.dart';
 
 
 class TwoPage extends StatelessWidget {
@@ -20,6 +23,14 @@ class TwoPage extends StatelessWidget {
               color: Colors.blue,
               child: const Text('Establercer Usuario', style: TextStyle(color: Colors.white)),
               onPressed: () {
+                
+                final newUser = User(
+                  name: 'Nino Andres Bravo',
+                  age: 23,
+                );
+
+                final userService = Provider.of<UserService>(context, listen: false);
+                userService.user = newUser;
 
               }
             ),

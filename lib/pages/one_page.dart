@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:states_app/models/user.dart';
+
+import 'package:states_app/services/user_service.dart';
 
 
 class OnePage extends StatelessWidget {
@@ -7,12 +11,17 @@ class OnePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final userService = Provider.of<UserService>(context, listen: true);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pagina 1'),
         centerTitle: true,
       ),
-      body: const UserInformation(),
+      body: userService.userExists
+        ? UserInformation(user: userService.user)
+        : const Center(child: Text('No hay usuario')),
      floatingActionButton: FloatingActionButton(
        child: const Icon(Icons.padding),
        onPressed: () => Navigator.pushNamed(context, 'twoPage')
@@ -23,8 +32,10 @@ class OnePage extends StatelessWidget {
 
 class UserInformation extends StatelessWidget {
   const UserInformation({
-    Key? key,
+    Key? key, required this.user,
   }) : super(key: key);
+
+  final User? user;
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +45,19 @@ class UserInformation extends StatelessWidget {
       padding: const EdgeInsets.all(28.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text('Genenal', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          Divider(),
+        children: [
+          const Text('Genenal', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Divider(),
 
-          ListTile( title: Text('Nombre: ') ),
-          ListTile( title: Text('Edad: ') ),
+          ListTile( title: Text('Nombre: ${user?.name}') ),
+          ListTile( title: Text('Edad: ${user?.age}') ),
 
-          Text('Profesiones', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-          Divider(),
+          const Text('Profesiones', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+          const Divider(),
 
-          ListTile( title: Text('Profesion 1: ') ),
-          ListTile( title: Text('Profesion 2: ') ),
-          ListTile( title: Text('Profesion 3: ') ),
+          const ListTile( title: Text('Profesion 1: ') ),
+          const ListTile( title: Text('Profesion 2: ') ),
+          const ListTile( title: Text('Profesion 3: ') ),
         ],
       ),
     );
